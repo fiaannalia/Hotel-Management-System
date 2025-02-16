@@ -112,7 +112,7 @@ def mainMenu():
 #main function admin        
 def admin():
     while True:
-        print(f"""Main Menu \n1. Ta mpilkan list Hotel \n2. Menambahkan list hotel \n3. Menghapus list hotel \n4. Mengedit list hotel \n5. Memesan kamar hotel \n6. Exit\n""")
+        print(f"""Main Menu \n1. Tampilkan list Hotel \n2. Menambahkan list hotel \n3. Menghapus list hotel \n4. Mengedit list hotel \n5. Memesan kamar hotel \n6. Exit\n""")
         menu=input("Masukkan angka Menu yang ingin dijalankan: ")
 
         while menu.isdigit()==False:
@@ -528,6 +528,7 @@ def menu4():
                             else:
                                 print("Input harus berupa y/n")
                                 continue
+                        break
                     except ValueError:
                         print("Error: Nilai harus berupa angka. Silakan coba lagi.")
 
@@ -556,9 +557,19 @@ def menu4():
                         if harga < 0:
                             print("Error: Harga tidak boleh negatif. Silakan coba lagi.")
                             continue
-                        daftar_hotel[index]["harga"]=harga
-                        print("Nama Hotel berhasil diupdate")
-                        print(tabulate(daftar_hotel, headers="keys", tablefmt="fancy_grid"))
+                        while True:
+                            a = input("Update Data? (y/n): ")
+                            if a.lower() == "y":
+                                daftar_hotel[index]["harga"]=harga
+                                print("Nama Hotel berhasil diupdate")
+                                print(tabulate(daftar_hotel, headers="keys", tablefmt="fancy_grid"))
+                                break
+                            elif a.lower() == "n":
+                                menu4()   
+                            else:
+                                print("Input harus berupa y/n")
+                                continue
+                            print("\n")
                         break 
                     except ValueError:
                         print("Error: Harga harus berupa angka. Silakan coba lagi.")
@@ -584,6 +595,7 @@ def menu4():
                             else:
                                 print("Input harus berupa y/n")
                                 continue
+                        break
                     except ValueError:
                         print("Error: Nilai harus berupa angka. Silakan coba lagi.")
             
@@ -649,8 +661,9 @@ def menu5():
             total= 0
             index=0
             for i in cart:
-                total+=i["total"]
-                index+=1
+                if i['Status']== 'Booked':
+                    total+=i["total"]
+                    index+=1
             index=0
 
             print(f"Total yang harus dibayar {total}")
@@ -667,7 +680,7 @@ def menu5():
                 else:
                     #pilihan menu pada kode voucher
                     while True:
-                        print(f"""1. Tampilkan kode voucher yang tersedia \n2. Masukkan kode voucher \n3. Back\n""")
+                        print(f"""1. Tampilkan kode voucher yang tersedia \n2. Masukkan kode voucher \n3. Bayar\n""")
                         menu=input("Masukkan angka daftar yang ingin dijalankan: ")
 
                         if menu.isdigit()==False:
@@ -705,12 +718,13 @@ def menu5():
 
                             if found==False:
                                 print(f"Kode voucher {kode} tidak ditemukan")
+
                         elif menu==3:
                             break
 
             print(f"Total yang harus dibayar {total}")
 
-            #menu pembayaran
+            #menu pembayaran                 
             while True:
                 try:
                     uang = int(input("Masukkan jumlah uang: "))
@@ -724,7 +738,7 @@ def menu5():
                 except ValueError:
                     print("Error: Masukkan jumlah uang yang valid")
                     continue
-                
+                        
             for item in cart:
                 item["Status"] = "Paid"
 
