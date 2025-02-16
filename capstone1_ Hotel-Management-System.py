@@ -744,8 +744,13 @@ def menu5():
 
         #menampilkan daftar kamar yang telah dipesan
         if menu==2:
-            print("\nStatus pemesanan kamar:")
-            print(tabulate(cart, headers="keys", tablefmt="fancy_grid"))
+            if len(cart)!=0:
+                print("\nStatus pemesanan kamar:")
+                print(tabulate(cart, headers="keys", tablefmt="fancy_grid"))
+            elif len(cart)==0:
+                print("Daftar pesanan masih kosong")
+            print("\n")
+
 
         if menu==3:
             exit(menu5)
